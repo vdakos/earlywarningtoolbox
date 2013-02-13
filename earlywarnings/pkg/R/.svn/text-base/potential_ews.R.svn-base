@@ -30,19 +30,16 @@ PlotPotential <- function (res, title = "", xlab.text, ylab.text, cutoff = 0.5) 
 
   # Static contour
   # Interpolate potential grid
-  intp <- akima::interp(as.vector(res$pars), as.vector(res$xis), as.vector(pots))
+  intp <- interp(as.vector(res$pars), as.vector(res$xis), as.vector(pots)) 
   xy <- expand.grid(intp$x, intp$y)
-  z <- as.vector(intp$z)
+  z <- as.vector(intp$z)   	
   z[is.na(z)] <- max(na.omit(z))
+  bg.var=NULL
+  phylotype=NULL
 
   df <- data.frame(list(bg.var = xy[,1], phylotype = xy[,2], potential = z))
-  bg.var <- NULL
-  phylotype <- NULL
-
-  p <- ggplot(df, aes(bg.var, phylotype, z = potential)) + geom_tile(aes(fill = potential)) + stat_contour(binwidth = 0.2)
-
+  p<-ggplot(df, aes(bg.var, phylotype, z = potential)) + geom_tile(aes(fill = potential)) + stat_contour(binwidth = 0.2) 
   p <- p + xlab(xlab.text) + ylab(ylab.text) + labs(title = title)
-
   p
 
 }
@@ -74,7 +71,7 @@ PlotPotential <- function (res, title = "", xlab.text, ylab.text, cutoff = 0.5) 
 #'
 #' @export
 #'
-#' @references Livina, VN, F Kwasniok, and TM Lenton, 2010. Potential analysis reveals changing number of climate states during the last 60 kyr . \emph{Climate of the Past}, 6, 77-82.
+#' @references Livina, VN, F Kwasniok, and TM Lenton, 2010. Potential analysis reveals changing number of climate states during the last 60 kyr . Climate of the Past, 6, 77-82.
 #' 
 #' Dakos, V., et al (2012)."Methods for Detecting Early Warnings of Critical Transitions in Time Series Illustrated Using Simulated Ecological Data." \emph{PLoS ONE} 7(7): e41010. doi:10.1371/journal.pone.0041010
 #' @author Based on Matlab code from Egbert van Nes modified by Leo Lahti. Implemented in early warnings package by V. Dakos.
@@ -129,9 +126,9 @@ livpotential_ews <- function (x, std = 1, bw = -1, xi = NULL, weights = c(), gri
 
 #' Description: Moving Average Potential
 #'
-#' \code{movpotential_ews} reconstructs a potential derived from data along a gradient of a given parameter
+#' \code{movpotential} reconstructs a potential derived from data along a gradient of a given parameter
 #Detail
-#' the \code{movpotential_ews} calculates the potential for values that correspond to a particular parameter. see ref below
+#' the \code{movpotential} calculates the potential for values that correspond to a particular parameter. see ref below
 #'
 # Arguments:
 #'  @param X a vector of the X observations of the state variable of interest
@@ -157,7 +154,7 @@ livpotential_ews <- function (x, std = 1, bw = -1, xi = NULL, weights = c(), gri
 #' 
 #' @export
 #'
-#' @references  Hirota, M., Holmgren, M., van Nes, E.H. & Scheffer, M. (2011). Global resilience of tropical forest and savanna to critical transitions. \emph{Science}, 334, 232-235.
+#' @references  Hirota, M., Holmgren, M., van Nes, E.H. & Scheffer, M. (2011). Global resilience of tropical forest and savanna to critical transitions. Science, 334, 232–235
 #' @author Based on Matlab code from Egbert van Nes modified by Leo Lahti. Implemented in early warnings package by V. Dakos.
 #' @seealso \code{\link{generic_ews}}; \code{\link{ddjnonparam_ews}}; \code{\link{bdstest_ews}}; \code{\link{sensitivity_ews}};\code{\link{surrogates_ews}}; \code{\link{ch_ews}}; \code{livpotential_ews}
 # ; \code{\link{timeVAR_ews}}; \code{\link{thresholdAR_ews}}
