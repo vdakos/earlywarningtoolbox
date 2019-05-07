@@ -49,7 +49,8 @@ sensitivity_ews<-function(timeseries,indicator=c("ar1","sd","acf1","sk","kurt","
 	require(moments)
 	require(fields)
 	
-#timeseries<-ts(timeseries) #strict data-types the input data as tseries object for use in later steps
+	# Ensure obj timeseries is of class "timeseries"
+	if(!is.ts(timeseries)) timeseries <- ts(timeseries) #strict data-types the input data as tseries object for use in later steps
 	  timeseries<-data.matrix(timeseries)
     if (dim(timeseries)[2]==1){
 		Y=timeseries
