@@ -48,7 +48,7 @@
 
 # Author: Vasilis Dakos, January 2, 2012
   	
-generic_ews<-function(timeseries,winsize=50,detrending=c("no","gaussian","linear","first-diff"),bandwidth=NULL,logtransform=FALSE,interpolate=FALSE,AR_n=FALSE,powerspectrum=FALSE){	
+generic_ews<-function(timeseries,winsize=50,detrending=c("no","gaussian","linear","first-diff"),bandwidth=NULL,logtransform=FALSE,interpolate=FALSE,AR_n=FALSE,powerspectrum=FALSE, create.plots = FALSE){	
 	
 	require(lmtest)
 	require(nortest)
@@ -166,6 +166,7 @@ generic_ews<-function(timeseries,winsize=50,detrending=c("no","gaussian","linear
 
 	# Plotting
 	# Generic Early-Warnings
+	if(create.plots == T){
 	dev.new()
 	par(mar=(c(0,2,0,1)+0),oma=c(7,2,3,1),mfrow=c(5,2))
 	plot(timeindex,Y,type="l",ylab="",xlab="",xaxt="n",las=1,xlim=c(timeindex[1],timeindex[length(timeindex)]))
@@ -239,6 +240,7 @@ generic_ews<-function(timeseries,winsize=50,detrending=c("no","gaussian","linear
 	contour(x=(spectfft$freq[2:length(spectfft$freq)]),y=(seq(1,ncol	(nSPECT),by=1)),log(nSPECT[2:length(spectfft$freq),]),add=TRUE)
 	mtext("Power spectrum within rolling windows",side=3,line=0.2, outer=TRUE)
 	}
+	} # End plotting
 	
 	# Output
 	out<-data.frame(timeindex[mw:length(nsmY)],nARR,nSD,nSK,nKURT,nCV,nRETURNRATE,nDENSITYRATIO,nACF)
